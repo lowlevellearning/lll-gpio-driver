@@ -13,8 +13,7 @@ static char data_buffer[LLL_MAX_USER_SIZE];
 
 ssize_t lll_read(struct file *file, char __user *user, size_t size, loff_t *off)
 {
-	copy_to_user(user,"Hello!\n", 7);
-	return 7;
+	return copy_to_user(user,"Hello!\n", 7) ? 0 : 7;
 }
 
 ssize_t lll_write(struct file *file, const char __user *user, size_t size, loff_t *off)
@@ -26,8 +25,8 @@ ssize_t lll_write(struct file *file, const char __user *user, size_t size, loff_
 		size = LLL_MAX_USER_SIZE;
 	}
 
-	copy_from_user(data_buffer, user, size);
-	
+	if (copy_from_user(data_buffer, user, size))
+		return 0;
 	printk("You said '%s'!\n", data_buffer);
 	return size;
 }
