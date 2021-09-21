@@ -13,7 +13,7 @@
 
 static struct proc_dir_entry *lll_proc = NULL;
 
-static char data_buffer[LLL_MAX_USER_SIZE];
+static char data_buffer[LLL_MAX_USER_SIZE+1] = {0};
 
 static unsigned int *gpio_registers = NULL;
 
